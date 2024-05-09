@@ -1,0 +1,96 @@
+#include <iostream>
+#include <climits>
+using namespace std;
+
+// Definição da estrutura de nó da lista encadeada
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Classe para implementar a pilha usando lista encadeada
+class Stack {
+private:
+    Node* top; // Apontador para o topo da pilha
+
+public:
+    // Construtor
+    Stack() {
+        top = NULL;
+    }
+
+    // Método para empilhar um elemento
+    void push(int value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = top;
+        top = newNode;
+    }
+
+    // Método para desempilhar um elemento
+    int pop() {
+        if (isEmpty()) {
+            cout << "Pilha vazia!" << endl;
+            return -1;
+        }
+        int data = top->data;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return data;
+    }
+
+    // Método para verificar se a pilha está vazia
+    bool isEmpty() {
+        return top == NULL;
+    }
+};
+
+int main() {
+    Stack evenStack; // Pilha para números pares
+    Stack oddStack;  // Pilha para números ímpares
+
+    cout << "Digite 30 números inteiros em ordem crescente:" << endl;
+
+    int previous = INT_MIN; // Valor mínimo de int para comparar com o primeiro número digitado
+    for (int i = 0; i < 30; ++i) {
+        int num;
+        cin >> num;
+
+        if (num <= previous) {
+            cout << "O número digitado não é maior do que o anterior. Por favor, digite novamente." << endl;
+            --i; // Para digitar novamente o mesmo número
+            continue;
+        }
+
+        if (num % 2 == 0)
+            evenStack.push(num);
+        else
+            oddStack.push(num);
+
+        previous = num;
+    }
+
+    cout << "Números desempilhados na ordem decrescente:" << endl;
+
+    // Desempilhar e mostrar os números pares
+    while (!evenStack.isEmpty()) {
+        cout << evenStack.pop() << " ";
+    }
+
+    // Desempilhar e mostrar os números ímpares
+    while (!oddStack.isEmpty()) {
+        cout << oddStack.pop() << " ";
+    }
+
+    cout << endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
